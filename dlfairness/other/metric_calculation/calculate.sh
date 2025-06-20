@@ -1,4 +1,6 @@
 #!/bin/sh
+echo "Building conf matrices"
+python3 confusion_matrix.py
 echo "Calculate Bias Amplification"
 python calculate_ba.py
 

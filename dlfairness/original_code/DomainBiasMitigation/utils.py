@@ -35,7 +35,7 @@ def set_random_seed(seed_number):
     torch.manual_seed(seed_number)
     np.random.seed(seed_number)
     random.seed(seed_number)
-    torch.cuda.seed(seed_number)
+    torch.cuda.manual_seed_all(seed_number)
     
 def write_info(filename, info):
     with open(filename, 'w') as f:

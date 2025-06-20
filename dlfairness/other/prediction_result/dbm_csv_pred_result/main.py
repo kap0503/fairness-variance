@@ -10,6 +10,9 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--config', type=str)
 parser.add_argument('--raw_result_dir', type=str)
 parser.add_argument('--output_dir', type=str)
+parser.add_argument('--exp_name', type=str)
+parser.add_argument('--seed', type=int)
+
 args = parser.parse_args()
 
 
@@ -50,21 +53,20 @@ with open(args.config, 'r') as f:
 for config in config_json:
     class_bias_result = []
     for no_try in range(config['no_tries']):
-        exp_result_path = Path(
-            args.raw_result_dir,
-            "{0}_{1}_{2}_{3}/{4}".format(config['network'],
-                                         config['training_type'],
-                                         config['dataset'],
-                                         config['random_seed'],
-                                         str(no_try)))
+        exp_result_path = Path(args.raw_result_dir)
+            # "{0}_{1}_{2}_{3}/{4}".format(config['network'],
+            #                              config['training_type'],
+            #                              config['dataset'],
+            #                              str(args.seed),
+            #                              str(no_try)))
         color_result_path = Path(
             exp_result_path,
-            "record/{0}_{1}/e1/test_color_result.pkl".format(config['dataset'],
-                                                             config['training_type'].replace('-', '_')))
+            "record/{0}_{1}/{2}/test_color_result.pkl".format(config['dataset'],
+                                                             config['training_type'].replace('-', '_'), args.exp_name))
         gray_result_path = Path(
             exp_result_path,
-            "record/{0}_{1}/e1/test_gray_result.pkl".format(config['dataset'],
-                                                            config['training_type'].replace('-', '_')))
+            "record/{0}_{1}/{2}/test_gray_result.pkl".format(config['dataset'],
+                                                            config['training_type'].replace('-', '_'), args.exp_name))
         test_label_path = Path(exp_result_path, 'data/cifar_test_labels')
 
         with open(str(color_result_path), 'rb') as f:
@@ -91,8 +93,8 @@ for config in config_json:
                 else:  # Load RBA predicted result
                     test_rba_result_path = Path(
                         exp_result_path,
-                        "record/{0}_{1}/e1/test_rba_result.pkl".format(config['dataset'],
-                                                                       config['training_type'].replace('-', '_')))
+                        "record/{0}_{1}/{2}/test_rba_result.pkl".format(config['dataset'],
+                                                                       config['training_type'].replace('-', '_'), args.exp_name))
                     with open(str(test_rba_result_path), 'rb') as f:
                         predicted_classes = pickle.load(f)
                 ret.append(predicted_classes)
@@ -141,7 +143,7 @@ for config in config_json:
                 csv_fn = Path(parent_path, 'try_{0:02d}.csv'.format(no_try))
                 write_pd(str(csv_fn), predicted_classes_list[i])
         else:
-            parent_path = Path(args.output_dir, '{0}'.format(config['training_type']))
+            parent_path = Path(args.output_dir, '{0}'.format(config['training_type']), str(args.seed))
             parent_path.mkdir(exist_ok=True, parents=True)
-            csv_fn = Path(parent_path, 'try_{0:02d}.csv'.format(no_try))
+            csv_fn = Path(parent_path, 'try_{0}.csv'.format(args.exp_name))
             write_pd(str(csv_fn), predicted_classes_list[0])

@@ -11,6 +11,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--config', type=str)
 parser.add_argument('--raw_result_dir', type=str)
 parser.add_argument('--output_dir', type=str)
+parser.add_argument('--exp_name', type=str)
+
 args = parser.parse_args()
 
 def load_acc_txt(p):
@@ -32,15 +34,10 @@ full_raw_result = {} # {setting: []}
 for config in config_json:
     for no_try in range(16):
         exp_result_path = Path(
-            args.raw_result_dir,
-            "{0}_{1}_{2}_{3}/{4}".format(config['network'],
-                                         config['training_type'],
-                                         config['dataset'],
-                                         config['random_seed'],
-                                         str(no_try)))
+            args.raw_result_dir)
         log_path = Path(exp_result_path,
-            "record/{0}_{1}/e1/test_result.txt".format(config['dataset'],
-                                                             config['training_type'].replace('-', '_')))
+            "record/{0}_{1}/{2}/test_result.txt".format(config['dataset'],
+                                                             config['training_type'].replace('-', '_'), args.exp_name))
 
         acc_dict = load_acc_txt(log_path)
         if config['training_type'] == 'domain-discriminative':

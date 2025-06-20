@@ -55,6 +55,7 @@ def collect_args():
     parser.add_argument('--experiment_name', type=str, default='cifar_color')
     parser.add_argument('--no_cuda', dest='cuda', action='store_false')
     parser.add_argument('--random_seed', type=int, default=0)
+    parser.add_argument('--gpu', type=str, default='0')
     parser.set_defaults(cuda=True)
 
     opt = vars(parser.parse_args())
@@ -66,6 +67,7 @@ def create_exerpiment_setting(opt):
     
     # common experiment setting
     if opt['experiment'].startswith('cifar'):
+        os.environ['CUDA_VISIBLE_DEVICES'] = opt['gpu']
         opt['device'] = torch.device('cuda' if opt['cuda'] else 'cpu')
         opt['print_freq'] = 50
         opt['batch_size'] = 128
@@ -196,7 +198,7 @@ def create_exerpiment_setting(opt):
         
     elif opt['experiment'] == 'cifar-s_uniconf_adv':
         opt['output_dim'] = 10
-        opt['total_epochs'] = 500
+        opt['total_epochs'] = 200
         opt['training_ratio'] = 3
         opt['alpha'] = 1.
         
@@ -222,7 +224,7 @@ def create_exerpiment_setting(opt):
         
     elif opt['experiment'] == 'cifar-s_gradproj_adv':
         opt['output_dim'] = 10
-        opt['total_epochs'] = 500
+        opt['total_epochs'] = 200
         opt['training_ratio'] = 3
         opt['alpha'] = 1.
         
