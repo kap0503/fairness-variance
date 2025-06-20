@@ -1,0 +1,10 @@
+#!/bin/bash
+# FILENAME:  job3.sub
+#### to run DomainBiasMitigation with seed 3 with folder name seed3_re4_A100; make sure you run this in the DomainBiasMitigation folder, with the apptainer image in that folder as well
+apptainer exec --nv fairvar.sif python3 main.py --experiment cifar-s_uniconf_adv --experiment_name seed3_re4_A100 --random_seed 3 --gpu '0'
+
+### To get all predictions
+apptainer exec --nv fairvar.sif python3 other/prediction_result/dbm_csv_pred_result/run.sh
+
+### To run metrics
+apptainer exec --nv fairvar.sif python3 other/metric_calculation/calculate.sh

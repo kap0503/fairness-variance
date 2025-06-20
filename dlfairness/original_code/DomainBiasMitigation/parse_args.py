@@ -198,7 +198,7 @@ def create_exerpiment_setting(opt):
         
     elif opt['experiment'] == 'cifar-s_uniconf_adv':
         opt['output_dim'] = 10
-        opt['total_epochs'] = 200
+        opt['total_epochs'] = 500
         opt['training_ratio'] = 3
         opt['alpha'] = 1.
         
@@ -224,7 +224,7 @@ def create_exerpiment_setting(opt):
         
     elif opt['experiment'] == 'cifar-s_gradproj_adv':
         opt['output_dim'] = 10
-        opt['total_epochs'] = 200
+        opt['total_epochs'] = 500
         opt['training_ratio'] = 3
         opt['alpha'] = 1.
         

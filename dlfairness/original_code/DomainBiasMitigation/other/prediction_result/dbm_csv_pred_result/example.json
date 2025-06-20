@@ -1,0 +1,19 @@
+[
+  {
+    "description": "cifar-s uniconf-adv color vs gray",
+    "network": "ResNet-18",
+    "training_type": "uniconf-adv",
+    "dataset": "cifar-s",
+    "random_seed": "fixed",
+    "no_tries": 1,
+    "shared_dir": "/dlfairness",
+    "working_dir": "/working_dir",
+    "source_dir": "original_code/DomainBiasMitigation",
+    "main_file": "models/cifar_uniconf_adv.py",
+    "running_command": "python3 main.py --experiment cifar-s_uniconf_adv --experiment_name e1 --random_seed 1",
+    "docker_env": "dlfairness:balanced_dataset_not_enough_coco",
+    "conda_env": "##_NO_CONDA_##",
+    "eval_file": ["compute_bias_nway.py"],
+    "eval_running_command": ["python3 compute_bias_nway.py --record_name cifar-s_uniconf_adv --parent_folder . --output_key class_outputs"]
+  }
+]
